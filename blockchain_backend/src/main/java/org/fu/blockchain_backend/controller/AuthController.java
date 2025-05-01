@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173/")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
