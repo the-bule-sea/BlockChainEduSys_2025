@@ -1,9 +1,6 @@
 package org.fu.blockchain_backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
@@ -15,6 +12,10 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private String idCardNum;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     // Getters and Setters
     public Long getId() {
@@ -47,5 +48,28 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getIdCardNum() {
+        return idCardNum;
+    }
+
+    public void setIdCardNum(String idCardNum) {
+        this.idCardNum = idCardNum;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public User() {
+
+    }
+    public User(Role role) {
+        this.role = role;
     }
 }

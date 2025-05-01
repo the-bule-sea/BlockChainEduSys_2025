@@ -13,6 +13,9 @@
         <el-form-item label="Email">
           <el-input v-model="registerForm.email" type="email" required></el-input>
         </el-form-item>
+        <el-form-item label="身份证">
+          <el-input v-model="registerForm.idCardNum" required></el-input>
+        </el-form-item>
         <el-form-item label="密码">
           <el-input v-model="registerForm.password" type="password" required show-password></el-input>
         </el-form-item>
@@ -28,6 +31,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import request from '@/utils/request';
 
 export default {
   name: 'Register',
@@ -37,17 +41,19 @@ export default {
       name: '',
       email: '',
       password: '',
+      idCardNum: '',
     });
 
     const handleRegister = async() => {
       try {
         const response = await request.post('/auth/register', registerForm.value);
         if(response.code === '0') {
-          router.push('/dashbord');
+          router.push('/login');
         } else{
           alert(response.msg);
         }
       } catch(error){
+        console.error(error);
         alert('注册失败');
       }
     };
