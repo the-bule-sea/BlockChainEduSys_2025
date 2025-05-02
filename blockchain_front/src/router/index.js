@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import Dashboard from '../views/Dashboard.vue';
+import AdminLayout from '../layout/AdminLayout.vue';
+import ManageDegree from '../components/ManageDegree.vue';
 
 const routes = [
   {
@@ -23,6 +25,18 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
   },
+  {
+    path: '/admin',
+    name: 'Layout',
+    component: AdminLayout,
+    children: [
+      {
+        path: '',
+        name: 'ManageDegree',
+        component: ManageDegree,
+      }
+    ]
+  }
 ];
 
 const router = createRouter({

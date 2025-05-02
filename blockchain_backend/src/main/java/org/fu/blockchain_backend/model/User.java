@@ -69,7 +69,8 @@ public class User {
     public User() {
 
     }
-    public User(Role role) {
+    public User(Role role, String name) {
         this.role = role;
+        this.name = name;
     }
 }

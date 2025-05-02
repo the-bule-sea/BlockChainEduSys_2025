@@ -41,51 +41,45 @@
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import request from "@/utils/request";
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import request from '@/utils/request'
 
-export default {
-  name: "Login",
-  setup() {
-    const router = useRouter();
-    const loginForm = ref({
-      email: "",
-      password: "",
-      idCardNum: "",
-      identityType: "ADMIN" // 新增身份类型字段 ['ADMIN', 'USER']
-    });
+const router = useRouter()
+const loginForm = ref({
+  email: '',
+  password: '',
+  idCardNum: '',
+  identityType: 'ADMIN'
+})
 
-    const handleLogin = async () => {
-      try {
-        const payload = {
-          identityType: loginForm.value.identityType,
-          email: loginForm.value.email || null,
-          idCardNum: loginForm.value.idCardNum || null,
-          password: loginForm.value.password
-        };
-        const response = await request.post("/auth/login", payload);
-        if (response.code === "0") {
-          console.log("登录成功:", response);
-          router.push("/dashboard");
-        } else {
-          alert(response.msg);
-        }
-      } catch (error) {
-        console.error("登录异常:", error);
-        alert("登录失败，请重试");
+const handleLogin = async () => {
+  try {
+    const payload = {
+      identityType: loginForm.value.identityType,
+      email: loginForm.value.email || null,
+      idCardNum: loginForm.value.idCardNum || null,
+      password: loginForm.value.password
+    }
+
+    const response = await request.post('/auth/login', payload)
+
+    if (response.code === '0') {
+      localStorage.setItem('user', JSON.stringify(response.data))
+      if (response.data.role === 'ADMIN') {
+        router.push('/admin')
+      } else {
+        router.push('/dashboard')
       }
-      // console.log('Login:', loginForm.value.email, loginForm.value.password);
-      // router.push('/dashboard');
-    };
-
-    return {
-      loginForm,
-      handleLogin
-    };
+    } else {
+      alert(response.msg)
+    }
+  } catch (error) {
+    console.error('登录异常:', error)
+    alert('登录失败，请重试')
   }
-};
+}
 </script>
 
 <style scoped>

@@ -1,6 +1,7 @@
 package org.fu.blockchain_backend.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class Degree {
@@ -14,7 +15,11 @@ public class Degree {
     private String university;      // 毕业院校
     private String major;           // 专业
     private String degreeLevel;     // 学历层次（本科/硕士/博士等）
-    private String graduationDate;  // 毕业时间（字符串即可）
+    private LocalDate  graduationDate;  // 毕业时间
+
+    private String txHash; // 交易哈希值
+
+    private Boolean valid = true;
 
     // 构造函数
     public Degree() {}
@@ -67,11 +72,11 @@ public class Degree {
         this.degreeLevel = degreeLevel;
     }
 
-    public String getGraduationDate() {
+    public LocalDate getGraduationDate() {
         return graduationDate;
     }
 
-    public void setGraduationDate(String graduationDate) {
+    public void setGraduationDate(LocalDate graduationDate) {
         this.graduationDate = graduationDate;
     }
 }

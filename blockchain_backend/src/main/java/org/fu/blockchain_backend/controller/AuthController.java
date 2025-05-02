@@ -33,7 +33,7 @@ public class AuthController {
             }
             User adminUser = userRepository.findByEmailAndPassword(email, password);
             if (adminUser != null && adminUser.getRole() == Role.ADMIN) {
-                return Result.success(new User(adminUser.getRole()));
+                return Result.success(new User(adminUser.getRole(), adminUser.getName()));
             } else {
                 return Result.error("管理员邮箱或密码错误");
             }

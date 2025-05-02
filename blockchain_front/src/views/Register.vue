@@ -28,42 +28,33 @@
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import request from '@/utils/request';
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import request from '@/utils/request'
 
-export default {
-  name: 'Register',
-  setup() {
-    const router = useRouter();
-    const registerForm = ref({
-      name: '',
-      email: '',
-      password: '',
-      idCardNum: '',
-    });
+const router = useRouter()
 
-    const handleRegister = async() => {
-      try {
-        const response = await request.post('/auth/register', registerForm.value);
-        if(response.code === '0') {
-          router.push('/login');
-        } else{
-          alert(response.msg);
-        }
-      } catch(error){
-        console.error(error);
-        alert('注册失败');
-      }
-    };
+const registerForm = ref({
+  name: '',
+  email: '',
+  password: '',
+  idCardNum: ''
+})
 
-    return {
-      registerForm,
-      handleRegister,
-    };
-  },
-};
+const handleRegister = async () => {
+  try {
+    const response = await request.post('/auth/register', registerForm.value)
+    if (response.code === '0') {
+      router.push('/login')
+    } else {
+      alert(response.msg)
+    }
+  } catch (error) {
+    console.error(error)
+    alert('注册失败')
+  }
+}
 </script>
 
 <style scoped>
