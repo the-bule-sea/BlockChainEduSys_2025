@@ -100,12 +100,12 @@ const form = ref({});
 
 // 加载数据
 const load = async () => {
-  console.log(params.value);
+  // console.log(params.value);
   const response = await request.post("/admin/degree/page", params.value);
   if (response.code === "0") {
     tableData.value = response.data.content;
     console.log(response.data);
-    total.value = response.data.totalPages;
+    total.value = response.data.totalElements;
   }
 };
 

@@ -17,9 +17,29 @@ public class AdminDegreeController {
 
     @PostMapping("/page")
     public Result findPage(@RequestBody DegreeDTO degreeDTO){
-        System.out.println(degreeDTO.toString());
+        //System.out.println(degreeDTO.toString());
         Page<Degree> page = degreeService.findPage(degreeDTO);
         return Result.success(page);
+    }
+
+    @PostMapping
+    public Result savaOrUpdate(@RequestBody Degree degree){
+        try{
+            degreeService.savaOrUpdate(degree);
+            return Result.success();
+        } catch (Exception e){
+            return Result.error(e.toString());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable String id){
+        try {
+            degreeService.delete(id);
+            return Result.success();
+        } catch (Exception e){
+            return Result.error(e.toString());
+        }
     }
 
 }

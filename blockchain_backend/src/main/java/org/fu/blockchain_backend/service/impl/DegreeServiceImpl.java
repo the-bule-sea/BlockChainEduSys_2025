@@ -59,4 +59,14 @@ public class DegreeServiceImpl implements DegreeService {
         // 使用Specification和Pageable对象进行查询，并返回结果
         return degreeRepository.findAll(spec, pageable);
     }
+
+    @Override
+    public Degree savaOrUpdate(Degree degree) {
+        return degreeRepository.save(degree);
+    }
+
+    @Override
+    public void delete(String id) {
+        degreeRepository.deleteById(Long.parseLong(id));
+    }
 }

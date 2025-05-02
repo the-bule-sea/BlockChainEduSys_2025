@@ -6,4 +6,6 @@ import org.springframework.data.domain.Page;
 
 public interface DegreeService {
     Page<Degree> findPage(DegreeDTO degreeDTO);
+    Degree savaOrUpdate(Degree degree);
+    void delete(String id);
 }
