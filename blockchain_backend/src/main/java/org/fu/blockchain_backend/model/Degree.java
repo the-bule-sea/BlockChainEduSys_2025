@@ -21,6 +21,8 @@ public class Degree {
 
     private Boolean valid = true;
 
+    private String timestamp; // 时间戳
+
     // 构造函数
     public Degree() {}
 
