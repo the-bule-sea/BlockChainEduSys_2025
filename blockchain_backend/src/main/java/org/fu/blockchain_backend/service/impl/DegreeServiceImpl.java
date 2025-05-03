@@ -5,6 +5,7 @@ import org.fu.blockchain_backend.model.Degree;
 import org.fu.blockchain_backend.repository.DegreeRepository;
 import org.fu.blockchain_backend.service.DegreeService;
 import org.fu.blockchain_backend.blockchain.BlockchainService;
+import org.fu.blockchain_backend.util.DegreeHashUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +82,34 @@ public class DegreeServiceImpl implements DegreeService {
     @Override
     public void delete(String id) {
         degreeRepository.deleteById(Long.parseLong(id));
+    }
+
+    @Override
+    public List<String> verifyAllDegrees() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<Degree> localDegrees = degreeRepository.findAll();
+        List<String> mismatches = new ArrayList<>();
+
+        for (Degree local : localDegrees) {
+            Degree chainDegree = blockchainService.getDegreeByIdCard(local.getIdCardNum());
+            if (chainDegree == null) {
+                mismatches.add("链上缺失身份证：" + local.getIdCardNum());
+                continue;
+            }
+            String localHash = DegreeHashUtil.calculateDegreeHash(
+                    local.getName(), local.getIdCardNum(), local.getUniversity(),
+                    local.getMajor(), local.getDegreeLevel(), local.getGraduationDate().toString()
+            );
+
+            String chainHash = DegreeHashUtil.calculateDegreeHash(
+                    chainDegree.getName(), chainDegree.getIdCardNum(), chainDegree.getUniversity(),
+                    chainDegree.getMajor(), chainDegree.getDegreeLevel(), chainDegree.getGraduationDate().format(formatter)
+            );
+
+            if (!localHash.equals(chainHash)) {
+                mismatches.add("不一致：身份证 " + local.getIdCardNum());
+            }
+        }
+        return mismatches;
     }
 }

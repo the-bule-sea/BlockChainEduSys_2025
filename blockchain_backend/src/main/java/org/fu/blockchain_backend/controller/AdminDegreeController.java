@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -40,6 +41,16 @@ public class AdminDegreeController {
             return Result.success();
         } catch (Exception e) {
             return Result.error(e.toString());
+        }
+    }
+
+    @GetMapping("/verifyAll")
+    public Result verifyAllDegrees() {
+        List<String> problems = degreeService.verifyAllDegrees();
+        if (problems.isEmpty()) {
+            return Result.success();
+        } else {
+            return Result.error("以下记录存在不一致", problems);
         }
     }
 

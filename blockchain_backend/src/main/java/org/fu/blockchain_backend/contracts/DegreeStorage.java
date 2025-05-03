@@ -290,6 +290,30 @@ public class DegreeStorage extends Contract {
                     ", valid=" + valid +
                     '}';
         }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getIdCardNum() {
+            return idCardNum;
+        }
+
+        public String getUniversity() {
+            return university;
+        }
+
+        public String getMajor() {
+            return major;
+        }
+
+        public String getDegreeLevel() {
+            return degreeLevel;
+        }
+
+        public String getGraduationDate() {
+            return graduationDate;
+        }
     }
 
     public static class DegreeAddedEventResponse {

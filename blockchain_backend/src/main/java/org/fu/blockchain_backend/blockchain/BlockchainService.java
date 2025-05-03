@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Service
 public class BlockchainService {
     private static final Logger logger = LoggerFactory.getLogger(BlockchainService.class);
@@ -64,6 +67,25 @@ public class BlockchainService {
             return receipt.getTransactionHash();
         } catch (Exception e){
             logger.error("Error sending addAndSaveDegree transaction: ", e);
+            throw new RuntimeException(e.toString());
+        }
+    }
+
+    public Degree getDegreeByIdCard(String idCardNum) {
+        init();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        try {
+            DegreeStorage.Degree ContractDegree = degreeStorage.getDegrees(idCardNum).get(0);
+            Degree degree = new Degree();
+            degree.setName(ContractDegree.getName());
+            degree.setIdCardNum(ContractDegree.getIdCardNum());
+            degree.setUniversity(ContractDegree.getUniversity());
+            degree.setMajor(ContractDegree.getMajor());
+            degree.setDegreeLevel(ContractDegree.getDegreeLevel());
+            degree.setGraduationDate(LocalDate.parse(ContractDegree.getGraduationDate(), formatter));
+            return degree;
+        } catch (Exception e) {
+            logger.error("Error getting degree by id card: ", e);
             throw new RuntimeException(e.toString());
         }
     }

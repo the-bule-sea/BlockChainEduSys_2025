@@ -30,6 +30,14 @@ public class Result {
         return result;
     }
 
+    public static Result error(String msg, Object data){
+        Result result = new Result();
+        result.setCode(ERROR);
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+
 
 
     public String getCode() {
