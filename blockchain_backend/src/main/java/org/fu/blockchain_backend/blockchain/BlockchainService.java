@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class BlockchainService {
@@ -75,7 +76,12 @@ public class BlockchainService {
         init();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
-            DegreeStorage.Degree ContractDegree = degreeStorage.getDegrees(idCardNum).get(0);
+            List<DegreeStorage.Degree> degrees = degreeStorage.getDegrees(idCardNum);
+            if(degrees == null || degrees.isEmpty()){
+                logger.warn("区块链上未查询到身份证号 {} 的学历记录", idCardNum);
+                return null; // 或者抛出自定义异常
+            };
+            DegreeStorage.Degree ContractDegree = degrees.get(0);
             Degree degree = new Degree();
             degree.setName(ContractDegree.getName());
             degree.setIdCardNum(ContractDegree.getIdCardNum());

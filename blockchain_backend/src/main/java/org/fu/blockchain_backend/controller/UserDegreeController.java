@@ -15,16 +15,16 @@ public class UserDegreeController {
     @Autowired
     private UserDegreeService userDegreeService;
 
-    @GetMapping("/user/verify/{userId}")
-    public Result verifyDegree(@PathVariable String userId) {
-        // 校验用户ID是否为空或非数字
-        if (userId == null || userId.isEmpty() || !userId.matches("\\d+")) {
-            return Result.error("无效的用户ID");
-        }
-        try {
-
-        }
-    }
+    //@GetMapping("/user/verify/{userId}")
+    //public Result verifyDegree(@PathVariable String userId) {
+    //    // 校验用户ID是否为空或非数字
+    //    if (userId == null || userId.isEmpty() || !userId.matches("\\d+")) {
+    //        return Result.error("无效的用户ID");
+    //    }
+    //    try {
+    //
+    //    }
+    //}
 
     @GetMapping("/degree/{userId}")
     public Result getDegreeByUserId(@PathVariable String userId) {

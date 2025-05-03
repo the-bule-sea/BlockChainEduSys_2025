@@ -11,6 +11,7 @@
       <el-button type="primary" @click="findBySearch" style="margin-left: 10px">查询</el-button>
       <el-button type="warning" @click="reset">清空</el-button>
       <el-button type="success" @click="add">新增</el-button>
+      <el-button type="danger" @click="verify">校验</el-button>
     </div>
 
     <!-- 表格 -->
@@ -51,16 +52,16 @@
     <el-dialog title="学历信息" v-model="dialogFormVisible" width="40%">
       <el-form :model="form" label-width="100px">
         <el-form-item label="姓名">
-          <el-input v-model="form.name"/>
+          <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item label="身份证号">
-          <el-input v-model="form.idCardNum"/>
+          <el-input v-model="form.idCardNum" />
         </el-form-item>
         <el-form-item label="学校">
-          <el-input v-model="form.university"/>
+          <el-input v-model="form.university" />
         </el-form-item>
         <el-form-item label="专业">
-          <el-input v-model="form.major"/>
+          <el-input v-model="form.major" />
         </el-form-item>
         <el-form-item label="学历">
           <el-select v-model="form.degreeLevel" placeholder="请选择学历">
@@ -83,7 +84,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import {ElMessage, ElLoading} from "element-plus";
+import { ElMessage, ElLoading } from "element-plus";
 import request from "@/utils/request";
 
 const params = ref({
@@ -110,8 +111,8 @@ const load = async () => {
 };
 
 onMounted(async () => {
-  await load()
-})
+  await load();
+});
 
 // 查询
 const findBySearch = () => {
@@ -137,15 +138,45 @@ const edit = row => {
   dialogFormVisible.value = true;
 };
 
+// 校验
+const verify = async () => {
+  try {
+    const loadingInstance = ElLoading.service({
+      fullscreen: true,
+      text: "正在向区块链校验，请稍候...",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)"
+    });
+    // 伪随机延迟，模拟上链耗时（1.5s ~ 3s）
+    const delay = Math.floor(Math.random() * 1500) + 1500;
+    await new Promise(resolve => setTimeout(resolve, delay));
+    // 发起真实请求
+    const res = await request.get("/admin/degree/verifyAll");
+    loadingInstance.close();
+    if (res.code === "0") {
+      ElMessage.success("数据无误");
+    } else {
+      ElMessage.error(res.msg || "校验失败");
+      if (Array.isArray(res.data)) {
+        ElMessage.error(res.data.join("\n")); // 每个问题一行
+      }
+    }
+  } catch (error) {
+    ElLoading.service({}).close();
+    console.error("校验失败:", error);
+    ElMessage.error("校验失败，请重试");
+  }
+};
+
 // 提交
 const submit = async () => {
   try {
     // 显示加载动画
     const loadingInstance = ElLoading.service({
       fullscreen: true,
-      text: '正在上链，请稍候...',
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.7)'
+      text: "正在上链，请稍候...",
+      spinner: "el-icon-loading",
+      background: "rgba(0, 0, 0, 0.7)"
     });
 
     // 伪随机延迟，模拟上链耗时（1.5s ~ 3s）
@@ -153,43 +184,42 @@ const submit = async () => {
     await new Promise(resolve => setTimeout(resolve, delay));
 
     // 发起真实请求
-    const res = await request.post('/admin/degree', form.value);
+    const res = await request.post("/admin/degree", form.value);
 
     // const res = null;
     // 关闭加载动画
     loadingInstance.close();
 
-    if (res.code === '0') {
+    if (res.code === "0") {
       dialogFormVisible.value = false;
       await load();
-      ElMessage.success('上链成功，数据已提交');
+      ElMessage.success("上链成功，数据已提交");
     } else {
-      ElMessage.error(res.msg || '提交失败');
+      ElMessage.error(res.msg || "提交失败");
     }
   } catch (error) {
     // 出错也关闭加载动画
     ElLoading.service({}).close();
-    console.error('提交失败:', error);
-    ElMessage.error('提交失败，请重试');
+    console.error("提交失败:", error);
+    ElMessage.error("提交失败，请重试");
   }
-}
+};
 
 // 删除
-const del = async (id) => {
+const del = async id => {
   try {
-    const res = await request.delete(`/admin/degree/${id}`)
-    if (res.code === '0') {
-      await load()
-      ElMessage.success('删除成功')
+    const res = await request.delete(`/admin/degree/${id}`);
+    if (res.code === "0") {
+      await load();
+      ElMessage.success("删除成功");
     } else {
-      ElMessage.error(res.msg || '删除失败')
+      ElMessage.error(res.msg || "删除失败");
     }
   } catch (error) {
-    console.error('删除失败:', error)
-    ElMessage.error('删除失败，请重试')
+    console.error("删除失败:", error);
+    ElMessage.error("删除失败，请重试");
   }
-}
-
+};
 
 // 分页
 const handleSizeChange = size => {

@@ -93,7 +93,7 @@ public class DegreeServiceImpl implements DegreeService {
         for (Degree local : localDegrees) {
             Degree chainDegree = blockchainService.getDegreeByIdCard(local.getIdCardNum());
             if (chainDegree == null) {
-                mismatches.add("链上缺失身份证：" + local.getIdCardNum());
+                mismatches.add("链上缺失身份证：" + local.getIdCardNum() + ", 请核实");
                 continue;
             }
             String localHash = DegreeHashUtil.calculateDegreeHash(
