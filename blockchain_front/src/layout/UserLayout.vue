@@ -5,8 +5,7 @@
       <div class="logo">区块链学历认证系统</div>
       <nav class="nav-bar">
         <router-link to="/user" class="nav-link">首页</router-link>
-        <router-link to="/user/profile" class="nav-link">个人资料</router-link>
-        <router-link to="/user/settings" class="nav-link">设置</router-link>
+        <router-link to="/user/verify" class="nav-link">资料校验</router-link>
       </nav>
       <div class="user-info">
         <span>欢迎，{{ user.name }}</span>

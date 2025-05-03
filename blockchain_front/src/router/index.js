@@ -5,6 +5,7 @@ import Dashboard from '../components/Dashboard.vue';
 import AdminLayout from '../layout/AdminLayout.vue';
 import UserLayout from '../layout/UserLayout.vue';
 import ManageDegree from '../components/ManageDegree.vue';
+import UserVerify from '../components/UserVerify.vue';
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
         path: '',
         name: 'UserDashboard',
         component: Dashboard,
+      },
+      {
+        path: 'verify',
+        name: 'UserVerify',
+        component: UserVerify,
       }
     ]
   },
