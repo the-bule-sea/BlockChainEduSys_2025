@@ -33,7 +33,7 @@ public class AuthController {
             }
             User adminUser = userRepository.findByEmailAndPassword(email, password);
             if (adminUser != null && adminUser.getRole() == Role.ADMIN) {
-                return Result.success(new User(adminUser.getRole(), adminUser.getName()));
+                return Result.success(new User(adminUser.getRole(), adminUser.getName(), adminUser.getId()));
             } else {
                 return Result.error("管理员邮箱或密码错误");
             }
@@ -44,7 +44,7 @@ public class AuthController {
             }
             User normalUser = userRepository.findByIdCardNumAndPassword(idCard, password);
             if (normalUser != null && normalUser.getRole() == Role.USER) {
-                return Result.success(normalUser);
+                return Result.success(new User(normalUser.getRole(), normalUser.getName(), normalUser.getId()));
             } else {
                 return Result.error("身份证号或密码错误");
             }

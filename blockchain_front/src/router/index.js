@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
-import Dashboard from '../views/Dashboard.vue';
+import Dashboard from '../components/Dashboard.vue';
 import AdminLayout from '../layout/AdminLayout.vue';
+import UserLayout from '../layout/UserLayout.vue';
 import ManageDegree from '../components/ManageDegree.vue';
 
 const routes = [
@@ -21,9 +22,16 @@ const routes = [
     component: Register,
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: Dashboard,
+    path: '/user',
+    name: 'UserLayout',
+    component: UserLayout,
+    children: [
+      {
+        path: '',
+        name: 'UserDashboard',
+        component: Dashboard,
+      }
+    ]
   },
   {
     path: '/admin',

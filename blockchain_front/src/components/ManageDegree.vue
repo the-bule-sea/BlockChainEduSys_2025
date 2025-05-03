@@ -51,16 +51,16 @@
     <el-dialog title="学历信息" v-model="dialogFormVisible" width="40%">
       <el-form :model="form" label-width="100px">
         <el-form-item label="姓名">
-          <el-input v-model="form.name" />
+          <el-input v-model="form.name"/>
         </el-form-item>
         <el-form-item label="身份证号">
-          <el-input v-model="form.idCardNum" />
+          <el-input v-model="form.idCardNum"/>
         </el-form-item>
         <el-form-item label="学校">
-          <el-input v-model="form.university" />
+          <el-input v-model="form.university"/>
         </el-form-item>
         <el-form-item label="专业">
-          <el-input v-model="form.major" />
+          <el-input v-model="form.major"/>
         </el-form-item>
         <el-form-item label="学历">
           <el-select v-model="form.degreeLevel" placeholder="请选择学历">
@@ -83,7 +83,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElLoading} from "element-plus";
 import request from "@/utils/request";
 
 const params = ref({
@@ -140,17 +140,37 @@ const edit = row => {
 // 提交
 const submit = async () => {
   try {
-    const res = await request.post('/admin/degree', form.value)
+    // 显示加载动画
+    const loadingInstance = ElLoading.service({
+      fullscreen: true,
+      text: '正在上链，请稍候...',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.7)'
+    });
+
+    // 伪随机延迟，模拟上链耗时（1.5s ~ 3s）
+    const delay = Math.floor(Math.random() * 1500) + 1500;
+    await new Promise(resolve => setTimeout(resolve, delay));
+
+    // 发起真实请求
+    const res = await request.post('/admin/degree', form.value);
+
+    // const res = null;
+    // 关闭加载动画
+    loadingInstance.close();
+
     if (res.code === '0') {
-      dialogFormVisible.value = false
-      await load()
-      ElMessage.success('提交成功')
+      dialogFormVisible.value = false;
+      await load();
+      ElMessage.success('上链成功，数据已提交');
     } else {
-      ElMessage.error(res.msg || '提交失败')
+      ElMessage.error(res.msg || '提交失败');
     }
   } catch (error) {
-    console.error('提交失败:', error)
-    ElMessage.error('提交失败，请重试')
+    // 出错也关闭加载动画
+    ElLoading.service({}).close();
+    console.error('提交失败:', error);
+    ElMessage.error('提交失败，请重试');
   }
 }
 

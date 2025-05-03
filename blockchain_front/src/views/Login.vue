@@ -67,10 +67,11 @@ const handleLogin = async () => {
 
     if (response.code === '0') {
       localStorage.setItem('user', JSON.stringify(response.data))
+      console.log(response.data);
       if (response.data.role === 'ADMIN') {
         router.push('/admin')
       } else {
-        router.push('/dashboard')
+        router.push('/user')
       }
     } else {
       alert(response.msg)

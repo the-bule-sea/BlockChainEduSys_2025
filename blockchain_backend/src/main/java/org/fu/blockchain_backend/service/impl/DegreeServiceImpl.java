@@ -4,6 +4,7 @@ import org.fu.blockchain_backend.dto.DegreeDTO;
 import org.fu.blockchain_backend.model.Degree;
 import org.fu.blockchain_backend.repository.DegreeRepository;
 import org.fu.blockchain_backend.service.DegreeService;
+import org.fu.blockchain_backend.blockchain.BlockchainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,9 @@ public class DegreeServiceImpl implements DegreeService {
 
     @Autowired
     private DegreeRepository degreeRepository;
+
+    @Autowired
+    private BlockchainService blockchainService;
 
     /**
      * 根据DTO中的条件分页查询Degree实体
@@ -61,8 +65,16 @@ public class DegreeServiceImpl implements DegreeService {
     }
 
     @Override
-    public Degree savaOrUpdate(Degree degree) {
-        return degreeRepository.save(degree);
+    public Degree savaOrUpdate(Degree degree){
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String hash = blockchainService.uploadDegreeToBlockchain(degree, timestamp);
+        if(!hash.isEmpty()){
+            degree.setTimestamp(timestamp);
+            degree.setTxHash(hash);
+            return degreeRepository.save(degree);
+        }else {
+            return null;
+        }
     }
 
     @Override

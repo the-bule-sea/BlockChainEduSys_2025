@@ -69,8 +69,9 @@ public class User {
     public User() {
 
     }
-    public User(Role role, String name) {
+    public User(Role role, String name, Long id) {
         this.role = role;
         this.name = name;
+        this.id = id;
     }
 }
