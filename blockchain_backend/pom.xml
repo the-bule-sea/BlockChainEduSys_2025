@@ -37,10 +37,15 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.fisco-bcos.java-sdk</groupId>-->
+<!--            <artifactId>fisco-bcos-java-sdk</artifactId>-->
+<!--            <version>2.9.1</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.fisco-bcos.java-sdk</groupId>
             <artifactId>fisco-bcos-java-sdk</artifactId>
-            <version>2.9.1</version>
+            <version>3.6.0</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
