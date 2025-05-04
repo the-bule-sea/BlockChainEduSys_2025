@@ -112,4 +112,35 @@ public class DegreeServiceImpl implements DegreeService {
         }
         return mismatches;
     }
+
+    // 当本地中user表和degree数据不同时，就找不到然后空指针
+    @Override
+    public List<String> verifyByIdCard(String idCardNum) {
+        List<String> mismatches = new ArrayList<>();
+        Degree local = degreeRepository.findByIdCardNum(idCardNum);
+        if (local == null) {
+            mismatches.add("本地缺失身份证：" + idCardNum + ", 请核实");
+            return mismatches;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Degree chainDegree = blockchainService.getDegreeByIdCard(local.getIdCardNum());
+        if (chainDegree == null) {
+            mismatches.add("链上缺失身份证：" + local.getIdCardNum() + ", 请核实");
+            return mismatches;
+        }
+        String localHash = DegreeHashUtil.calculateDegreeHash(
+                local.getName(), local.getIdCardNum(), local.getUniversity(),
+                local.getMajor(), local.getDegreeLevel(), local.getGraduationDate().toString()
+        );
+
+        String chainHash = DegreeHashUtil.calculateDegreeHash(
+                chainDegree.getName(), chainDegree.getIdCardNum(), chainDegree.getUniversity(),
+                chainDegree.getMajor(), chainDegree.getDegreeLevel(), chainDegree.getGraduationDate().format(formatter)
+        );
+
+        if (!localHash.equals(chainHash)) {
+            mismatches.add("信息不一致");
+        }
+        return mismatches;
+    }
 }

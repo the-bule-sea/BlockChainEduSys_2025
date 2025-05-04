@@ -11,4 +11,5 @@ public interface DegreeService {
     Degree savaOrUpdate(Degree degree);
     void delete(String id);
     List<String> verifyAllDegrees();
+    List<String> verifyByIdCard(String idCardNum);
 }
