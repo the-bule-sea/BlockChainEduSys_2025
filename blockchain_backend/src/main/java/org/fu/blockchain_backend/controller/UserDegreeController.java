@@ -64,6 +64,7 @@ public class UserDegreeController {
             return Result.success(result);
 
         } catch (Exception e) {
+
             return Result.error("验证学位信息失败: " + e.getMessage());
         }
     }

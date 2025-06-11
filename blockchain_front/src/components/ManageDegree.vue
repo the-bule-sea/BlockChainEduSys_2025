@@ -26,11 +26,11 @@
       <el-table-column label="操作">
         <template #default="scope">
           <el-button type="primary" @click="edit(scope.row)">编辑</el-button>
-          <el-popconfirm title="确定删除吗？" @confirm="del(scope.row.id)">
+          <!-- <el-popconfirm title="确定删除吗？" @confirm="del(scope.row.id)">
             <template #reference>
               <el-button type="danger" style="margin-left: 10px">删除</el-button>
             </template>
-          </el-popconfirm>
+          </el-popconfirm> -->
         </template>
       </el-table-column>
     </el-table>
