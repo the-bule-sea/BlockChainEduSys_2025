@@ -2,27 +2,21 @@
 ****
 本项目基于 FISCO BCOS 3.0 区块链平台，构建了一个具备数据上链、校验等功能的学历信息管理系统。
 **项目演示**
-1. webase界面
+1. webase界面 
+![webase](attachments/WeBase_login.png) 
+![webase](attachments/Webase_show.png) 
+2. 登录界面 
+![登录](attachments/login.png) 
+![注册](attachments/register.png) 
+3. 用户界面 
+![用户界面](attachments/dashboard.png) 
+4. 管理员界面 
+![管理员界面](attachments/admin.png) 
 
-![webase](attachments/WeBase_login.png)
-![webase](attachments/Webase_show.png)
-2. 登录界面
-
-![登录](attachments/login.png)
-![注册](attachments/register.png)
-3. 用户界面
-
-![用户界面](attachments/dashboard.png)
-4. 管理员界面
-
-![管理员界面](attachments/admin.png)
-
-**项目架构**
-
-![架构](attachments/技术架构.svg)
-**系统模块**
-
-![模块](attachments/系统模块.svg)
+**项目架构** 
+![架构](attachments/技术架构.svg) 
+**系统模块** 
+![模块](attachments/系统模块.svg) 
 
 
 
